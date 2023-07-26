@@ -17,11 +17,13 @@ router.post(
 	ctrlUser.register
 );
 
-// // signin
+// signin
 router.post("/users/login", validateBody(schemas.loginSchema), ctrlUser.login);
 
 router.get("/users/current", authenticate, ctrlUser.getCurrent);
 
 router.post("/users/logout", authenticate, ctrlUser.logout);
+
+router.patch("/users", authenticate, ctrlUser.updateSubscription);
 
 module.exports = router;
