@@ -10,6 +10,8 @@ const { schemas } = require("../../models/user");
 
 const router = express.Router();
 
+const upload = require("../../middlewares/upload");
+
 // signup
 router.post(
 	"/users/register",
@@ -25,5 +27,12 @@ router.get("/users/current", authenticate, ctrlUser.getCurrent);
 router.post("/users/logout", authenticate, ctrlUser.logout);
 
 router.patch("/users", authenticate, ctrlUser.updateSubscription);
+
+router.patch(
+	"/users/avatars",
+	authenticate,
+	upload.single("avatar"),
+	ctrlUser.updateAvatar
+);
 
 module.exports = router;
