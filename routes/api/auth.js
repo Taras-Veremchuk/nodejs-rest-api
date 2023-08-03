@@ -2,15 +2,15 @@ const express = require("express");
 
 const authenticate = require("../../middlewares/authenticate");
 
-const ctrlUser = require("../../controllers/auth");
-
 const validateBody = require("../../middlewares/validateBody");
+
+const upload = require("../../middlewares/upload");
+
+const ctrlUser = require("../../controllers/auth");
 
 const { schemas } = require("../../models/user");
 
 const router = express.Router();
-
-const upload = require("../../middlewares/upload");
 
 // signup
 router.post(
@@ -34,5 +34,11 @@ router.patch(
 	upload.single("avatar"),
 	ctrlUser.updateAvatar
 );
+router.get("/users/verify/:verificationToken", ctrlUser.verifyEmail);
 
+router.post(
+	"/users/verify",
+	validateBody(schemas.emailShema),
+	ctrlUser.resendVerifyEmail
+);
 module.exports = router;
